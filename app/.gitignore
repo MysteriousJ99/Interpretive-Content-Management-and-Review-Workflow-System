@@ -1,0 +1,2 @@
+# Holds the database password. Never commit it.
+config.php
