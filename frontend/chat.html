@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>USC AI Tours | Tour Guide</title>
+  <meta name="theme-color" content="#73000a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="USC AI Tours">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/usc-ai-tours-icon.svg">
+  <style>
+    :root { --garnet:#73000a; --gold:#ffcf01; --ink:#1d1d1d; --line:#c8ccce; --wash:#f4f4f4; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--wash); color:var(--ink); font:16px/1.5 Arial,Helvetica,sans-serif; }
+    .app { width:min(100%, 900px); min-height:100vh; margin:auto; background:white; box-shadow:0 0 28px rgba(0,0,0,.08); }
+    header { padding:24px clamp(20px,5vw,48px); color:white; background:var(--garnet); border-bottom:6px solid var(--gold); }
+    header h1 { margin:0; font:clamp(1.8rem,4vw,2.5rem)/1.1 Georgia,"Times New Roman",serif; } header p { margin:5px 0 0; color:#f7e8e8; font-size:.8rem; font-weight:bold; letter-spacing:.06em; text-transform:uppercase; }
+    .beta { padding:10px 18px; background:var(--gold); font-size:.88rem; font-weight:bold; text-align:center; }
+    main { padding:clamp(20px,5vw,44px); }
+    .back { display:inline-block; margin-bottom:20px; color:var(--garnet); font-weight:bold; }
+    .context { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:18px; align-items:end; padding:20px; background:#f7f7f7; border:1px solid var(--line); border-top:5px solid var(--gold); }
+    label { display:block; margin-bottom:6px; font-weight:bold; } select,input,button { min-height:46px; padding:10px 12px; border:1px solid #8e969b; border-radius:0; font:inherit; }
+    select { width:100%; color:var(--ink); background:white; } .preferences { margin:0; color:#4d4d4d; font-size:.9rem; }
+    .chat-log { min-height:360px; margin:22px 0 0; padding:18px; background:#fafafa; border:1px solid var(--line); }
+    .message { width:fit-content; max-width:min(82%, 620px); margin:0 0 14px; padding:12px 14px; white-space:pre-wrap; }
+    .message.guide { background:white; border-left:4px solid var(--gold); }.message.visitor { margin-left:auto; color:white; background:var(--garnet); }
+    .composer { display:flex; gap:10px; margin-top:18px; }.composer input { flex:1; }.composer button { min-width:104px; color:var(--ink); background:var(--gold); border-color:var(--gold); font-weight:bold; cursor:pointer; }
+    .composer button:hover,.composer button:focus { color:white; background:var(--garnet); border-color:var(--garnet); }
+    footer { padding:22px clamp(20px,5vw,48px); color:white; background:var(--garnet); font-size:.82rem; }
+    @media (max-width:560px) { body { font-size:15px; } header { padding:20px 18px; } main { padding:22px 16px; } .context { grid-template-columns:1fr; padding:18px; } .chat-log { min-height:320px; padding:14px; } .message { max-width:92%; } .composer { flex-direction:column; } .composer button { width:100%; } footer { padding:20px 18px; } }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>AI Tour Guide</h1>
+      <p>USC AI Tours</p>
+    </header>
+    <div class="beta">This Program is in Beta and not fully functional.</div>
+    <main>
+      <a id="back-to-tour" class="back" href="viewer.html">← Back to the tour</a>
+      <section class="context" aria-label="Tour guide context">
+        <div>
+          <label for="building-select">Ask about a building</label>
+          <select id="building-select" disabled><option>Loading buildings…</option></select>
+        </div>
+        <p id="preferences" class="preferences"></p>
+      </section>
+      <section id="chat-log" class="chat-log" aria-live="polite" aria-label="Conversation"></section>
+      <form id="chat-form" class="composer">
+        <input id="question" type="text" autocomplete="off" placeholder="Ask about the building's history, dates, or design" disabled>
+        <button type="submit" disabled>Send</button>
+      </form>
+    </main>
+    <footer>Information in this guide comes from the USC AI Tours project workbook.</footer>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script>
+    const WORKBOOK_URL = './USC_AI_Guided_Tour_Database.xlsx';
+    const params = new URLSearchParams(window.location.search);
+    const preferredLanguage = params.get('language') || 'en';
+    const preferredLevel = params.get('reading_level') || 'college';
+    const preferredArea = params.get('area') || 'all';
+    const requestedBuildingId = params.get('building_id') || '';
+    const buildingSelect = document.querySelector('#building-select');
+    const chatLog = document.querySelector('#chat-log');
+    const questionInput = document.querySelector('#question');
+    const form = document.querySelector('#chat-form');
+    const sendButton = form.querySelector('button');
+    let buildings = [];
+
+    function addMessage(text, role) {
+      const message = document.createElement('div');
+      message.className = `message ${role}`;
+      message.textContent = text;
+      chatLog.append(message);
+      message.scrollIntoView({ block: 'nearest' });
+    }
+    function getLocalizedContent(building) {
+      return building.localizedContent.find(content => content.language_code === preferredLanguage && content.reading_level === preferredLevel)
+        || building.localizedContent.find(content => content.language_code === 'en' && content.reading_level === 'college');
+    }
+    function currentBuilding() { return buildings.find(building => building.id === buildingSelect.value); }
+    function buildResponse(question, building) {
+      const text = question.toLowerCase();
+      const localized = getLocalizedContent(building);
+      const facts = localized.key_facts.split(';').map(fact => fact.trim()).filter(Boolean);
+      if (/source|citation|reference/.test(text)) return `Sources for ${localized.display_name}: ${building.sources.join('; ') || 'Source information is being added.'}`;
+      if (/when|date|built|open|opened|year/.test(text)) return `${localized.display_name}: ${building.dates}. ${facts.join(' ')}`;
+      if (/architect|design|style|look|architecture/.test(text)) return `${localized.display_name} is listed as ${building.tags.join(' and ') || 'a historic campus building'}. ${localized.full_description}`;
+      if (/fact|detail|quick/.test(text)) return `${localized.display_name} key facts: ${facts.join(' ')}`;
+      return `${localized.full_description}\n\nKey facts: ${facts.join(' ')}`;
+    }
+    function refreshContext() {
+      const building = currentBuilding();
+      if (!building) return;
+      const localized = getLocalizedContent(building);
+      document.querySelector('#preferences').textContent = `Language: ${preferredLanguage.toUpperCase()} · Reading level: ${preferredLevel.replace('-', ' ')}`;
+      const backParams = new URLSearchParams();
+      if (preferredLanguage) backParams.set('language', preferredLanguage);
+      if (preferredLevel) backParams.set('reading_level', preferredLevel);
+      if (preferredArea) backParams.set('area', preferredArea);
+      backParams.set('building_id', building.id);
+      document.querySelector('#back-to-tour').href = `viewer.html?${backParams.toString()}`;
+      return localized;
+    }
+    async function loadBuildings() {
+      const response = await fetch(WORKBOOK_URL);
+      if (!response.ok) throw new Error('Workbook could not be loaded.');
+      const workbook = XLSX.read(await response.arrayBuffer(), { type:'array' });
+      const rows = sheet => XLSX.utils.sheet_to_json(workbook.Sheets[sheet], { defval:'' });
+      const buildingRows = rows('Buildings');
+      const localizedRows = rows('LocalizedContent');
+      const sourceRows = rows('Sources');
+      const sourceLinks = rows('SourceLinks');
+      const sources = Object.fromEntries(sourceRows.map(source => [source.source_id, source]));
+      buildings = buildingRows.map(row => ({
+        id: row.building_id, name: row.name, dates: row.date_label, tags: [row.current_use, row.architectural_style].filter(Boolean),
+        localizedContent: localizedRows.filter(content => content.building_id === row.building_id),
+        sources: sourceLinks.filter(link => link.building_id === row.building_id).map(link => sources[link.source_id]?.source_title).filter(Boolean)
+      })).filter(building => building.localizedContent.length);
+      const available = preferredArea === 'horseshoe' ? buildings.filter(building => ['usc_bldg_002', 'usc_bldg_003'].includes(building.id))
+        : preferredArea === 'main-campus' ? buildings.filter(building => building.id === 'usc_bldg_001') : buildings;
+      const visibleBuildings = available.length ? available : buildings;
+      buildingSelect.replaceChildren();
+      visibleBuildings.forEach(building => {
+        const option = document.createElement('option'); option.value = building.id; option.textContent = building.name; buildingSelect.append(option);
+      });
+      buildingSelect.value = visibleBuildings.some(building => building.id === requestedBuildingId) ? requestedBuildingId : visibleBuildings[0]?.id;
+      buildingSelect.disabled = false; questionInput.disabled = false; sendButton.disabled = false;
+      const localized = refreshContext();
+      addMessage(`Welcome! I can help you explore ${localized.display_name}. Ask about its history, dates, design, or key facts.`, 'guide');
+    }
+    buildingSelect.addEventListener('change', () => {
+      const localized = refreshContext();
+      addMessage(`Now talking about ${localized.display_name}. What would you like to know?`, 'guide');
+    });
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const question = questionInput.value.trim();
+      const building = currentBuilding();
+      if (!question || !building) return;
+      addMessage(question, 'visitor');
+      addMessage(buildResponse(question, building), 'guide');
+      questionInput.value = '';
+    });
+    loadBuildings().catch(() => addMessage('The tour guide could not load the project workbook. Make sure USC_AI_Guided_Tour_Database.xlsx is beside this page when it is hosted.', 'guide'));
+    /* Future chatbot integration: replace buildResponse() with a request to your approved chatbot API. */
+  </script>
+</body>
+</html>

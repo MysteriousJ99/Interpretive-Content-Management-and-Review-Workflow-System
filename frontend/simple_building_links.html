@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>USC Historic Buildings</title>
+  <style>
+    body { max-width:760px; margin:0 auto; padding:28px 20px; color:#1f2933; font:16px/1.45 Arial, sans-serif; }
+    #building-links { list-style:none; margin:22px 0 0; padding:0; }
+    #building-links li { margin:0 0 28px; padding:0 0 28px; border-bottom:1px solid #b8c1c7; }
+    .building-link { display:inline-block; margin-bottom:12px; color:#5a1831; font-size:1.2rem; font-weight:bold; }
+    .building-photo { display:block; width:100%; max-width:520px; max-height:320px; margin:4px 0 10px; object-fit:cover; border:1px solid #68737d; }
+    .photo-source { display:inline-block; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <h1>USC Historic Buildings</h1>
+  <p>Select a building:</p>
+  <ul id="building-links">
+    <li>Loading building links…</li>
+  </ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
+  <script>
+    const WORKBOOK_URL = './USC_AI_Guided_Tour_Database.xlsx';
+    const PHOTO_DATABASE_URL = './USC_Buildings_Chatbox_Database';
+    const list = document.querySelector('#building-links');
+
+    const loadWorkbook = () => fetch(WORKBOOK_URL)
+      .then(response => {
+        if (!response.ok) throw new Error('Workbook could not be loaded.');
+        return response.arrayBuffer();
+      })
+      .then(data => {
+        const workbook = XLSX.read(data, { type: 'array' });
+        return XLSX.utils.sheet_to_json(workbook.Sheets.Buildings, { defval: '' });
+      });
+    const loadPhotos = () => fetch(PHOTO_DATABASE_URL)
+      .then(response => {
+        if (!response.ok) throw new Error('Photo database could not be loaded.');
+        return response.arrayBuffer();
+      })
+      .then(async data => {
+        const SQL = await initSqlJs({ locateFile: file => `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${file}` });
+        const database = new SQL.Database(new Uint8Array(data));
+        const result = database.exec(`SELECT building_id, title, source_page_url, image_url, alt_text
+          FROM building_photos WHERE redistribution_allowed = 1 AND image_url IS NOT NULL AND image_url <> ''
+          ORDER BY building_id, CASE era WHEN 'current' THEN 0 ELSE 1 END`)[0];
+        const photos = {};
+        if (result) result.values.forEach(row => {
+          const photo = Object.fromEntries(result.columns.map((column, index) => [column, row[index]]));
+          if (!photos[photo.building_id]) photos[photo.building_id] = photo;
+        });
+        database.close();
+        return photos;
+      });
+
+    Promise.all([loadWorkbook(), loadPhotos()])
+      .then(([buildings, photos]) => {
+        list.replaceChildren();
+        buildings.forEach(building => {
+          const item = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = `viewer.html?building_id=${encodeURIComponent(building.building_id)}`;
+          link.textContent = building.name;
+          link.className = 'building-link';
+          item.append(link);
+          const photo = photos[building.building_id];
+          if (photo) {
+            const image = document.createElement('img');
+            image.src = photo.image_url;
+            image.alt = photo.alt_text;
+            image.className = 'building-photo';
+            const source = document.createElement('a');
+            source.href = photo.source_page_url;
+            source.target = '_blank';
+            source.rel = 'noreferrer';
+            source.textContent = photo.title;
+            source.className = 'photo-source';
+            item.append(image, source);
+          }
+          list.append(item);
+        });
+      })
+      .catch(() => {
+        list.innerHTML = '<li>Unable to load the workbook or photo database.</li>';
+      });
+  </script>
+</body>
+</html>

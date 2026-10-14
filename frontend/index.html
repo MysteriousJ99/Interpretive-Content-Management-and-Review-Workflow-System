@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to USC AI Tours</title>
+  <meta name="theme-color" content="#73000a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="USC AI Tours">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/usc-ai-tours-icon.svg">
+  <link rel="stylesheet" href="mobile-nav.css">
+  <style>
+    :root { --garnet:#73000a; --black:#1d1d1d; --gold:#ffcf01; --paper:#fff; }
+    * { box-sizing:border-box; } body { margin:0; color:var(--black); font:16px/1.5 Arial, sans-serif; background:#f4f4f4; }
+    .site-header { padding:17px clamp(20px,5vw,78px); color:white; background:var(--garnet); }
+    .wordmark { font-family:Georgia,serif; font-size:1.12rem; font-weight:bold; letter-spacing:.02em; text-decoration:none; color:white; }.wordmark span { display:block; font-family:Arial,sans-serif; font-size:.68rem; font-weight:normal; letter-spacing:.12em; text-transform:uppercase; }
+    .hero { min-height:calc(100vh - 73px); display:grid; place-items:center; padding:54px 20px; background:linear-gradient(90deg,rgb(0 0 0 / 32%),rgb(0 0 0 / 4%)),url('usc-ai-tours-background.png') center/cover no-repeat; }
+    main { width:min(92%, 690px); padding:clamp(34px,6vw,64px); background:rgb(255 255 255 / 95%); border-top:8px solid var(--gold); box-shadow:0 6px 24px rgb(0 0 0 / 38%); text-align:center; }
+    .eyebrow { margin:0 0 12px; color:var(--garnet); font-size:.78rem; font-weight:bold; letter-spacing:.14em; text-transform:uppercase; }
+    h1 { margin:0; font-family:Georgia,serif; color:var(--garnet); font-size:clamp(2.2rem,6vw,4rem); line-height:1.04; }.title-line,.title-name { display:block; }.title-name { color:var(--black); }
+    .subtitle { max-width:490px; margin:24px auto 31px; font-size:1.08rem; }.tour-button { display:inline-block; padding:17px 32px; color:var(--black); background:var(--gold); border:2px solid var(--gold); font-weight:bold; text-decoration:none; }.tour-button:hover,.tour-button:focus { color:white; background:var(--garnet); border-color:var(--garnet); }
+    .browse-button { display:inline-block; margin-top:12px; padding:13px 24px; color:var(--garnet); background:white; border:2px solid var(--garnet); font-weight:bold; text-decoration:none; }.browse-button:hover,.browse-button:focus { color:white; background:var(--garnet); }
+    .admin-link { display:inline-block; margin-top:32px; color:var(--garnet); font-size:.88rem; font-weight:bold; }.admin-link:hover,.admin-link:focus { color:var(--black); }
+    .mobile-welcome { display:none; }
+    @media (max-width:600px) { .site-header { position:sticky; top:0; z-index:20; } .mobile-welcome { display:block; margin:24px 0 0; padding:18px; background:#f6f6f6; border-left:5px solid var(--gold); text-align:left; } .mobile-welcome h2 { margin:0 0 7px; color:var(--garnet); font:1.35rem/1.15 Georgia,serif; }.mobile-welcome p { margin:0; }.mobile-steps { margin:14px 0 0; padding:0; list-style:none; }.mobile-steps li + li { margin-top:10px; }.mobile-steps strong { color:var(--garnet); } main > .tour-button,main > .browse-button,main > br { display:none; } }
+    @media (max-width:480px) { .site-header { padding:15px 18px; } .wordmark { font-size:1rem; } .hero { min-height:calc(100svh - 65px); padding:28px 14px; } main { width:100%; padding:32px 22px; } .subtitle { margin:18px auto 26px; font-size:1rem; } .tour-button,.browse-button { width:100%; padding:15px 18px; } .admin-link { margin-top:26px; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="wordmark" href="index.html">University of South Carolina<span>USC AI Tours</span></a>
+  </header>
+  <section class="hero">
+    <main>
+      <p class="eyebrow">University of South Carolina</p>
+      <h1><span class="title-line">Welcome to</span><span class="title-name">USC AI Tours</span></h1>
+      <p class="subtitle">Explore the people, places and stories that shape the University of South Carolina campus.</p>
+      <section class="mobile-welcome" aria-label="How to use USC AI Tours">
+        <h2>Explore USC your way</h2>
+        <p>Use the navigation bar below to discover historic places and stories across campus.</p>
+        <ul class="mobile-steps">
+          <li><strong>Scan</strong> a building QR code for a guided tour.</li>
+          <li><strong>Learn</strong> from home by browsing the building collection.</li>
+        </ul>
+      </section>
+      <a class="tour-button" href="scan.html">Take the Guided Tour</a>
+      <br>
+      <a class="browse-button" href="viewer.html">Learn from Home</a>
+      <br>
+      <!-- ADMIN LOGIN INTEGRATION: Replace admin_login.php below with your teammate's PHP login filename/path when it is added to this project. -->
+      <a class="admin-link" href="admin_login.php">Administrator login</a>
+    </main>
+  </section>
+  <script src="mobile-nav.js"></script>
+</body>
+</html>
