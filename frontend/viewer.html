@@ -1,0 +1,301 @@
+<!doctype html>
+<!-- Visitor interface -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>USC AI Tours | Visitor Guide</title>
+  <meta name="theme-color" content="#73000a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="USC AI Tours">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/usc-ai-tours-icon.svg">
+  <link rel="stylesheet" href="mobile-nav.css">
+  <style>
+    :root { --garnet:#73000a; --gold:#ffcf01; --ink:#1d1d1d; --line:#c8ccce; --paper:#fff; --wash:#f4f4f4; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--wash); color:var(--ink); font:16px/1.55 Arial, Helvetica, sans-serif; }
+    .phone { width:min(100%, 1040px); min-height:100vh; margin:auto; background:var(--paper); box-shadow:0 0 28px rgba(0,0,0,.08); }
+    header { padding:25px clamp(22px, 5vw, 58px); color:white; background:var(--garnet); border-bottom:6px solid var(--gold); }
+    header p, .hero p { margin:4px 0 0; }
+    h1, h2, h3 { font-family:Georgia, "Times New Roman", serif; }
+    h1 { margin:0; font-size:clamp(1.8rem, 4vw, 2.5rem); line-height:1.1; } h2 { margin:0 0 8px; font-size:1.35rem; } h3 { margin:0; font-size:1.1rem; }
+    header p { color:#f7e8e8; font-weight:bold; letter-spacing:.04em; text-transform:uppercase; font-size:.77rem; }
+    main { padding:clamp(24px, 5vw, 52px); }
+    .card { border:1px solid var(--line); padding:clamp(20px, 3vw, 30px); margin:25px 0; background:white; box-shadow:0 2px 8px rgba(0,0,0,.04); }
+    .beta-banner { padding:11px 18px; color:var(--ink); background:var(--gold); font-size:.88rem; font-weight:bold; text-align:center; }
+    .hero { min-height:210px; padding:clamp(24px, 5vw, 45px); color:white; background:linear-gradient(120deg, #520007, var(--garnet)); display:flex; flex-direction:column; justify-content:end; border-left:8px solid var(--gold); }
+    .hero h2 { font-size:clamp(1.8rem, 4vw, 2.75rem); line-height:1.1; }
+    label { display:block; margin:13px 0 5px; font-weight:bold; }
+    select, button, input { width:100%; min-height:46px; padding:10px 12px; border:1px solid #8e969b; border-radius:0; font:inherit; }
+    select { cursor:pointer; appearance:none; padding-right:48px; border:2px solid var(--garnet); background-color:white; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'%3E%3Cpath fill='%2373000a' d='M1 1l7 7 7-7' stroke='%2373000a' stroke-width='2'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:calc(100% - 16px) 50%; background-size:16px 10px; font-weight:bold; }
+    select:hover, select:focus { outline:3px solid rgba(255,207,1,.7); outline-offset:2px; }
+    input { background:white; }
+    button { color:white; background:var(--garnet); border-color:var(--garnet); cursor:pointer; font-weight:bold; transition:background .15s ease, color .15s ease; }
+    button:hover, button:focus-visible { color:var(--ink); background:var(--gold); border-color:var(--gold); }
+    .controls { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:20px; padding-bottom:23px; border-bottom:1px solid var(--line); }
+    .controls label { margin-top:0; }
+    .location-picker { margin:28px 0; }
+    .building-list { list-style:none; margin:12px 0 0; padding:0; border-top:3px solid var(--garnet); }
+    .building-list li { border:1px solid var(--line); border-top:0; }
+    .building-list button { color:var(--garnet); background:white; border:0; text-align:left; font-weight:bold; }
+    .building-list button:hover, .building-list button:focus { color:white; background:var(--garnet); }
+    .area-message { margin:8px 0 0; font-size:.92rem; color:#4d4d4d; }
+    .tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:18px; }
+    .tag { border:1px solid #a6acad; padding:4px 8px; font-size:.8rem; background:var(--wash); }
+    .timeline { padding-left:21px; margin:10px 0; }
+    .timeline li + li { margin-top:6px; }
+    .source { font-size:.9rem; }
+    .source a { color:var(--garnet); }
+    .building-photo { margin:22px 0; }
+    .building-photo img { display:block; width:100%; max-height:360px; object-fit:cover; border:1px solid var(--line); }
+    .building-photo figcaption { margin-top:8px; font-size:.82rem; }
+    .building-photo a { color:var(--garnet); }
+    .ai-launch { display:flex; align-items:center; justify-content:space-between; gap:24px; margin:0 0 28px; padding:24px; color:white; background:linear-gradient(120deg, #520007, var(--garnet)); border-left:8px solid var(--gold); }
+    .ai-launch h2 { margin:0 0 4px; font-size:1.45rem; }.ai-launch p { margin:0; color:#f7e8e8; }.ai-launch .kicker { margin-bottom:5px; color:var(--gold); font-size:.75rem; font-weight:bold; letter-spacing:.11em; text-transform:uppercase; }
+    .ai-launch-button { display:inline-block; flex:0 0 auto; padding:13px 18px; color:var(--ink); background:var(--gold); border:2px solid var(--gold); font-weight:bold; text-align:center; text-decoration:none; }.ai-launch-button:hover,.ai-launch-button:focus { color:white; background:transparent; }
+    footer { padding:24px clamp(22px, 5vw, 58px); color:#fff; background:var(--garnet); font-size:.82rem; }
+    .hidden { display:none; }
+    @media (max-width:560px) { body { font-size:15px; } header { position:sticky; top:0; z-index:20; padding:20px 18px; } main { padding:22px 16px; } .beta-banner { padding:10px 14px; } .ai-launch { align-items:stretch; flex-direction:column; padding:20px 18px; border-left-width:6px; } .ai-launch-button { width:100%; } .controls { grid-template-columns:.9fr 1.35fr; gap:8px; padding:12px; } .controls label,.location-picker label { margin:0 0 4px; font-size:.76rem; line-height:1.25; } .controls select,.location-picker select { min-height:40px; padding:8px 34px 8px 9px; font-size:.86rem; } .location-picker { margin:14px 0; padding:12px; border:1px solid var(--line); background:#fafafa; } .location-picker h2 { margin-bottom:8px; font-size:1.08rem; } .area-message { margin-top:6px; font-size:.82rem; } .card { padding:18px; margin:20px 0; } .hero { min-height:180px; padding:24px 18px; border-left-width:6px; } .building-photo img { max-height:260px; } footer { padding:20px 18px; } }
+  </style>
+</head>
+<body>
+  <div class="phone">
+    <header>
+      <h1>USC Historic Buildings</h1>
+      <p>Visitor Guide</p>
+    </header>
+    <div class="beta-banner" role="status">This Program is in Beta and not fully functional.</div>
+
+    <main>
+      <section class="ai-launch" aria-labelledby="ai-launch-title">
+        <div>
+          <p class="kicker">USC AI Tours</p>
+          <h2 id="ai-launch-title">Talk to the AI Tour Guide</h2>
+          <p>Ask questions and explore building history in a dedicated chat.</p>
+        </div>
+        <a id="tour-guide-link" class="ai-launch-button" href="chat.html">Talk to AI Tour Guide</a>
+      </section>
+      <div class="controls">
+        <div>
+          <label id="language-label" for="language">Language: English</label>
+          <select id="language" required>
+            <option value="" disabled>Choose a language</option>
+            <option value="en" selected>English</option>
+            <option value="es">Spanish</option>
+            <option value="fr">French</option>
+          </select>
+        </div>
+        <div>
+          <label id="reading-level-label" for="reading-level">Reading level: College level</label>
+          <select id="reading-level" required>
+            <option value="" disabled>Choose a reading level</option>
+            <option value="college" selected>College level</option>
+            <option value="secondary">High school / middle school</option>
+            <option value="elementary">Elementary school</option>
+          </select>
+        </div>
+      </div>
+
+      <section class="location-picker" aria-labelledby="area-title">
+        <h2 id="area-title">Explore by location</h2>
+        <label id="area-label" for="area-select">Campus area: All locations</label>
+        <select id="area-select" required>
+          <option value="" disabled>Choose a campus area</option>
+          <option value="all" selected>All locations</option>
+          <option value="horseshoe">USC Horseshoe</option>
+          <option value="main-campus">USC Main Campus</option>
+        </select>
+        <p id="area-message" class="area-message">Select a language, reading level, and campus area to begin.</p>
+        <ul id="building-list" class="building-list" aria-label="Buildings in selected location" hidden></ul>
+      </section>
+
+      <section id="building-content" class="card" aria-live="polite" hidden>
+        <div class="hero">
+          <h2 id="building-name">Loading building information…</h2>
+          <p id="building-dates"></p>
+        </div>
+        <div class="tags" id="building-tags"></div>
+        <h2 style="margin-top:16px">About this building</h2>
+        <p id="building-summary"></p>
+        <figure id="building-photo" class="building-photo" hidden>
+          <img id="photo-image" alt="">
+          <figcaption><strong id="photo-title"></strong><br><span id="photo-caption"></span><br><a id="photo-source" target="_blank" rel="noreferrer">Photo source and rights information</a></figcaption>
+        </figure>
+        <h3 id="facts-title">Key facts</h3>
+        <ul class="timeline" id="building-timeline"></ul>
+        <p class="source"><strong>Sources:</strong> <span id="building-sources"></span></p>
+      </section>
+
+    </main>
+    <footer>
+      Building histories, timelines and source links are provided through USC AI Tours data.
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/sql-wasm.js"></script>
+  <script>
+    /*
+      GITHUB DATA CONNECTION
+      Place the workbook in this same GitHub Pages folder using this filename: USC_AI_Guided_Tour_Database.xlsx.
+      This page reads the Buildings, BuildingEvents, Sources, SourceLinks, and LocalizedContent sheets directly.
+      It reads reusable building photos from USC_Buildings_Chatbox_Database.
+      The selected building_id is also sent to POST /api/chat with { building_id, question, language }.
+    */
+    const WORKBOOK_URL = './USC_AI_Guided_Tour_Database.xlsx';
+    const PHOTO_DATABASE_URL = './USC_Buildings_Chatbox_Database';
+    const BUILDING_AREAS = {
+      usc_bldg_001: 'main-campus',
+      usc_bldg_002: 'horseshoe',
+      usc_bldg_003: 'horseshoe'
+    };
+    let buildings = [], photos = {}, selectedBuilding = null;
+    const areaSelect = document.querySelector('#area-select');
+    const buildingList = document.querySelector('#building-list');
+    const areaMessage = document.querySelector('#area-message');
+    const languageSelect = document.querySelector('#language');
+    const readingLevelSelect = document.querySelector('#reading-level');
+    const buildingContent = document.querySelector('#building-content');
+    const tourGuideLink = document.querySelector('#tour-guide-link');
+    let requestedBuildingId = null;
+
+    const rows = (workbook, sheetName) => XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { defval: '' });
+    async function loadWorkbook() {
+      const response = await fetch(WORKBOOK_URL);
+      if (!response.ok) throw new Error(`Could not load ${WORKBOOK_URL}`);
+      const workbook = XLSX.read(await response.arrayBuffer(), { type: 'array' });
+      const buildingRows = rows(workbook, 'Buildings');
+      const eventRows = rows(workbook, 'BuildingEvents');
+      const sourceRows = rows(workbook, 'Sources');
+      const sourceLinks = rows(workbook, 'SourceLinks');
+      const localizedRows = rows(workbook, 'LocalizedContent');
+      const sources = Object.fromEntries(sourceRows.map(source => [source.source_id, source]));
+      return buildingRows.filter(row => BUILDING_AREAS[row.building_id]).map(row => ({
+        id: row.building_id, name: row.name, dates: row.date_label, summary: row.summary,
+        tags: [row.current_use, row.architectural_style].filter(Boolean),
+        timeline: eventRows.filter(event => event.building_id === row.building_id)
+          .map(event => `${event.start_date_text || 'Date not listed'} — ${event.event_title}`),
+        sources: sourceLinks.filter(link => link.building_id === row.building_id)
+          .map(link => sources[link.source_id]).filter(Boolean),
+        localizedContent: localizedRows.filter(content => content.building_id === row.building_id),
+        area: BUILDING_AREAS[row.building_id]
+      }));
+    }
+    async function loadPhotos() {
+      const response = await fetch(PHOTO_DATABASE_URL);
+      if (!response.ok) throw new Error(`Could not load ${PHOTO_DATABASE_URL}`);
+      const SQL = await initSqlJs({ locateFile: file => `https://cdn.jsdelivr.net/npm/sql.js@1.10.3/dist/${file}` });
+      const database = new SQL.Database(new Uint8Array(await response.arrayBuffer()));
+      const result = database.exec(`SELECT building_id, title, caption, creator, source_organization, source_page_url, image_url, license_url, alt_text
+        FROM building_photos WHERE redistribution_allowed = 1 AND image_url IS NOT NULL AND image_url <> ''
+        ORDER BY building_id, CASE era WHEN 'current' THEN 0 ELSE 1 END`)[0];
+      const output = {};
+      if (result) result.values.forEach(row => {
+        const photo = Object.fromEntries(result.columns.map((column, index) => [column, row[index]]));
+        if (!output[photo.building_id]) output[photo.building_id] = photo;
+      });
+      database.close();
+      return output;
+    }
+    function getLocalizedContent(building) {
+      return building.localizedContent.find(content => content.language_code === languageSelect.value && content.reading_level === readingLevelSelect.value)
+        || building.localizedContent.find(content => content.language_code === 'en' && content.reading_level === 'college');
+    }
+    function renderBuilding(building) {
+      const localized = getLocalizedContent(building);
+      document.querySelector('#building-name').textContent = localized.display_name;
+      document.querySelector('#building-dates').textContent = building.dates;
+      document.querySelector('#building-summary').textContent = localized.full_description;
+      document.querySelector('#building-tags').innerHTML = building.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+      document.querySelector('#facts-title').textContent = { en: 'Key facts', es: 'Datos clave', fr: 'Faits clés' }[languageSelect.value];
+      document.querySelector('#building-timeline').innerHTML = localized.key_facts.split(';').map(fact => `<li>${fact.trim()}</li>`).join('');
+      document.querySelector('#building-sources').innerHTML = building.sources.map(source => `<a href="${source.source_url}" target="_blank" rel="noreferrer">${source.source_title}</a>`).join('; ');
+      const photo = photos[building.id];
+      const figure = document.querySelector('#building-photo');
+      figure.hidden = !photo;
+      if (photo) {
+        document.querySelector('#photo-image').src = photo.image_url;
+        document.querySelector('#photo-image').alt = photo.alt_text;
+        document.querySelector('#photo-title').textContent = photo.title;
+        document.querySelector('#photo-caption').textContent = `${photo.caption} Credit: ${photo.creator}, ${photo.source_organization}.`;
+        document.querySelector('#photo-source').href = photo.source_page_url || photo.license_url;
+      }
+    }
+    function hasTourSelections() {
+      return Boolean(languageSelect.value && readingLevelSelect.value && areaSelect.value);
+    }
+    function updateTourGuideLink() {
+      const params = new URLSearchParams();
+      if (languageSelect.value) params.set('language', languageSelect.value);
+      if (readingLevelSelect.value) params.set('reading_level', readingLevelSelect.value);
+      if (areaSelect.value) params.set('area', areaSelect.value);
+      if (selectedBuilding) params.set('building_id', selectedBuilding.id);
+      tourGuideLink.href = `chat.html${params.size ? `?${params.toString()}` : ''}`;
+    }
+    function updateSelectionLabels() {
+      const labelFor = (select, label, emptyText) => {
+        const selectedText = select.selectedOptions[0]?.textContent;
+        label.textContent = select.value ? `${emptyText}: ${selectedText}` : `${emptyText} — choose an option`;
+      };
+      labelFor(languageSelect, document.querySelector('#language-label'), 'Language');
+      labelFor(readingLevelSelect, document.querySelector('#reading-level-label'), 'Reading level');
+      labelFor(areaSelect, document.querySelector('#area-label'), 'Campus area');
+    }
+    function renderBuildingList() {
+      if (!hasTourSelections()) return;
+      const selectedArea = areaSelect.value;
+      const visibleBuildings = selectedArea === 'all' ? buildings : buildings.filter(building => building.area === selectedArea);
+      buildingList.replaceChildren();
+      visibleBuildings.forEach(building => {
+        const item = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button'; button.textContent = building.name;
+        button.addEventListener('click', () => { selectedBuilding = building; renderBuilding(building); areaMessage.textContent = `Selected: ${building.name}`; updateTourGuideLink(); });
+        item.append(button); buildingList.append(item);
+      });
+      buildingList.hidden = !visibleBuildings.length;
+      if (!visibleBuildings.length) {
+        selectedBuilding = null;
+        buildingContent.hidden = true;
+        areaMessage.textContent = 'No buildings are available in this area yet.';
+        updateTourGuideLink();
+        return;
+      }
+      selectedBuilding = visibleBuildings.find(building => building.id === selectedBuilding?.id)
+        || visibleBuildings.find(building => building.id === requestedBuildingId)
+        || visibleBuildings[0];
+      renderBuilding(selectedBuilding);
+      buildingContent.hidden = false;
+      areaMessage.textContent = `Selected: ${selectedBuilding.name}`;
+      updateTourGuideLink();
+    }
+    function updateTourAvailability() {
+      updateSelectionLabels();
+      if (!hasTourSelections()) {
+        selectedBuilding = null;
+        buildingList.replaceChildren();
+        buildingList.hidden = true;
+        buildingContent.hidden = true;
+        areaMessage.textContent = 'Select a language, reading level, and campus area to begin.';
+        updateTourGuideLink();
+        return;
+      }
+      renderBuildingList();
+    }
+    areaSelect.addEventListener('change', updateTourAvailability);
+    languageSelect.addEventListener('change', updateTourAvailability);
+    readingLevelSelect.addEventListener('change', updateTourAvailability);
+    Promise.all([loadWorkbook(), loadPhotos()]).then(([buildingData, photoData]) => {
+      buildings = buildingData; photos = photoData;
+      requestedBuildingId = new URLSearchParams(window.location.search).get('building_id');
+      updateTourAvailability();
+    }).catch(() => {
+      areaMessage.textContent = 'Add USC_AI_Guided_Tour_Database.xlsx and USC_Buildings_Chatbox_Database beside this page in GitHub Pages to load the building records and photographs.';
+    });
+
+  </script>
+  <script src="mobile-nav.js"></script>
+</body>
+</html>
