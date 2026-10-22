@@ -114,6 +114,9 @@ function friendly_db_error(Throwable $t): string
 /** Suggested heading text for a new content entry. */
 function default_heading(string $sectionCode, string $langCode, string $sectionLabel): string
 {
-    $es = ['building_history' => 'Historia del edificio', 'name_history' => 'Historia del nombre'];
-    return $langCode === 'es' ? ($es[$sectionCode] ?? $sectionLabel) : $sectionLabel;
+    $headings = [
+        'es' => ['building_history' => 'Historia del edificio', 'name_history' => 'Historia del nombre'],
+        'fr' => ['building_history' => 'Histoire du bâtiment',  'name_history' => 'Histoire du nom'],
+    ];
+    return $headings[$langCode][$sectionCode] ?? $sectionLabel;
 }

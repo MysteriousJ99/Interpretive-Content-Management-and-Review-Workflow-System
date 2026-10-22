@@ -1,4 +1,4 @@
--- Seed content load for interpretive_cms (schema v1)
+-- Seed content load for interpretive_cms (schema v3: English, Spanish, French)
 -- Fill in every <PLACEHOLDER>, then run this whole file once on a freshly loaded database.
 --
 -- Rules this script follows (the database enforces them):
@@ -10,7 +10,7 @@
 --
 -- Text rules:
 --   * An apostrophe inside text must be doubled:  Founders'' Hall  (not Founders' Hall)
---   * Save this file as UTF-8 so Spanish accents (a, e, i, o, u, n with marks) load correctly.
+--   * Save this file as UTF-8 so Spanish and French accents (a, e, i, o, u, n with marks) load correctly.
 --   * Load with:  mysql -u root --default-character-set=utf8mb4 < seed_content.sql
 
 USE interpretive_cms;
@@ -29,9 +29,9 @@ INSERT INTO location_code (location_id, token)
 SELECT location_id, UUID() FROM location
 WHERE location_id NOT IN (SELECT location_id FROM location_code);
 
--- 3. The content: 2 buildings x 2 sections x 2 languages x 2 reading levels = 16 rows
+-- 3. The content: 2 buildings x 2 sections x 3 languages x 2 reading levels = 24 rows
 --    Codes: section = building_history | name_history
---           lang    = en | es
+--           lang    = en | es | fr
 --           lvl     = college | simplified
 INSERT INTO location_content
   (location_id, section_type_id, language_id, audience_id, heading, body, author_id)
@@ -43,18 +43,26 @@ FROM (
   UNION ALL SELECT '<BUILDING 1 NAME>', 'building_history', 'en', 'simplified', 'History of the building', '<PASTE EN simplified TEXT: building history>'
   UNION ALL SELECT '<BUILDING 1 NAME>', 'building_history', 'es', 'college', 'Historia del edificio', '<PASTE ES college-level TEXT: building history>'
   UNION ALL SELECT '<BUILDING 1 NAME>', 'building_history', 'es', 'simplified', 'Historia del edificio', '<PASTE ES simplified TEXT: building history>'
+  UNION ALL SELECT '<BUILDING 1 NAME>', 'building_history', 'fr', 'college', 'Histoire du bâtiment', '<PASTE FR college-level TEXT: building history>'
+  UNION ALL SELECT '<BUILDING 1 NAME>', 'building_history', 'fr', 'simplified', 'Histoire du bâtiment', '<PASTE FR simplified TEXT: building history>'
   UNION ALL SELECT '<BUILDING 1 NAME>', 'name_history', 'en', 'college', 'History of the name', '<PASTE EN college-level TEXT: name history>'
   UNION ALL SELECT '<BUILDING 1 NAME>', 'name_history', 'en', 'simplified', 'History of the name', '<PASTE EN simplified TEXT: name history>'
   UNION ALL SELECT '<BUILDING 1 NAME>', 'name_history', 'es', 'college', 'Historia del nombre', '<PASTE ES college-level TEXT: name history>'
   UNION ALL SELECT '<BUILDING 1 NAME>', 'name_history', 'es', 'simplified', 'Historia del nombre', '<PASTE ES simplified TEXT: name history>'
+  UNION ALL SELECT '<BUILDING 1 NAME>', 'name_history', 'fr', 'college', 'Histoire du nom', '<PASTE FR college-level TEXT: name history>'
+  UNION ALL SELECT '<BUILDING 1 NAME>', 'name_history', 'fr', 'simplified', 'Histoire du nom', '<PASTE FR simplified TEXT: name history>'
   UNION ALL SELECT '<BUILDING 2 NAME>', 'building_history', 'en', 'college', 'History of the building', '<PASTE EN college-level TEXT: building history>'
   UNION ALL SELECT '<BUILDING 2 NAME>', 'building_history', 'en', 'simplified', 'History of the building', '<PASTE EN simplified TEXT: building history>'
   UNION ALL SELECT '<BUILDING 2 NAME>', 'building_history', 'es', 'college', 'Historia del edificio', '<PASTE ES college-level TEXT: building history>'
   UNION ALL SELECT '<BUILDING 2 NAME>', 'building_history', 'es', 'simplified', 'Historia del edificio', '<PASTE ES simplified TEXT: building history>'
+  UNION ALL SELECT '<BUILDING 2 NAME>', 'building_history', 'fr', 'college', 'Histoire du bâtiment', '<PASTE FR college-level TEXT: building history>'
+  UNION ALL SELECT '<BUILDING 2 NAME>', 'building_history', 'fr', 'simplified', 'Histoire du bâtiment', '<PASTE FR simplified TEXT: building history>'
   UNION ALL SELECT '<BUILDING 2 NAME>', 'name_history', 'en', 'college', 'History of the name', '<PASTE EN college-level TEXT: name history>'
   UNION ALL SELECT '<BUILDING 2 NAME>', 'name_history', 'en', 'simplified', 'History of the name', '<PASTE EN simplified TEXT: name history>'
   UNION ALL SELECT '<BUILDING 2 NAME>', 'name_history', 'es', 'college', 'Historia del nombre', '<PASTE ES college-level TEXT: name history>'
   UNION ALL SELECT '<BUILDING 2 NAME>', 'name_history', 'es', 'simplified', 'Historia del nombre', '<PASTE ES simplified TEXT: name history>'
+  UNION ALL SELECT '<BUILDING 2 NAME>', 'name_history', 'fr', 'college', 'Histoire du nom', '<PASTE FR college-level TEXT: name history>'
+  UNION ALL SELECT '<BUILDING 2 NAME>', 'name_history', 'fr', 'simplified', 'Histoire du nom', '<PASTE FR simplified TEXT: name history>'
 ) v
 JOIN location       l ON l.name = v.loc
 JOIN section_type   s ON s.code = v.sec
@@ -67,7 +75,7 @@ SELECT content_id, @admin, 'created', 'draft', 'Seed load'
 FROM location_content
 WHERE content_id NOT IN (SELECT content_id FROM audit_event);
 
--- 5. Check: should show 16 rows, all draft
+-- 5. Check: should show 24 rows, all draft
 SELECT status, COUNT(*) AS n FROM location_content GROUP BY status;
 
 -- ---------------------------------------------------------------
