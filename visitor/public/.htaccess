@@ -1,0 +1,10 @@
+# Apache equivalent of visitor/router.php (used when deployed on Apache, e.g. XAMPP or a PHP host).
+# Point Apache's DocumentRoot at visitor/public, never at visitor/ or the repo root.
+Options -Indexes
+RewriteEngine On
+
+# Public JSON API
+RewriteRule ^api(/.*)?$ api.php [L,QSA]
+
+# QR code URLs: /v/<token> -> the guided viewing page
+RewriteRule ^v/([0-9A-Fa-f-]{36})/?$ guided_viewing.html?token=$1 [R=302,L]

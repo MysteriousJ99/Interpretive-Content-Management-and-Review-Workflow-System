@@ -1,0 +1,225 @@
+{
+  "_note": "Mock copy of v_published_content, generated with db/dev_test_data.sql. Same tokens and text.",
+  "rows": [
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "en",
+      "audience_code": "college",
+      "heading": "History of the building",
+      "body": "[TEST DATA] Placeholder college-level text about the history of the building for [TEST] Building A.\n\nSecond paragraph. Replace all test data with the Client's approved text before the demo."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "en",
+      "audience_code": "simplified",
+      "heading": "History of the building",
+      "body": "[TEST DATA] Placeholder simplified text about the history of the building for [TEST] Building A.\n\nSecond paragraph. Replace all test data with the Client's approved text before the demo."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "es",
+      "audience_code": "college",
+      "heading": "Historia del edificio",
+      "body": "[DATOS DE PRUEBA] Texto de nivel universitario de ejemplo sobre la historia del edificio de [TEST] Building A.\n\nSegundo párrafo. Reemplace los datos de prueba con el texto aprobado por el cliente antes de la demostración."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "es",
+      "audience_code": "simplified",
+      "heading": "Historia del edificio",
+      "body": "[DATOS DE PRUEBA] Texto simplificado de ejemplo sobre la historia del edificio de [TEST] Building A.\n\nSegundo párrafo. Reemplace los datos de prueba con el texto aprobado por el cliente antes de la demostración."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "fr",
+      "audience_code": "college",
+      "heading": "Histoire du bâtiment",
+      "body": "[DONNÉES DE TEST] Texte de niveau universitaire d'exemple sur l'histoire du bâtiment de [TEST] Building A.\n\nDeuxième paragraphe. Remplacez les données de test par le texte approuvé par le client avant la démonstration."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "fr",
+      "audience_code": "simplified",
+      "heading": "Histoire du bâtiment",
+      "body": "[DONNÉES DE TEST] Texte simplifié d'exemple sur l'histoire du bâtiment de [TEST] Building A.\n\nDeuxième paragraphe. Remplacez les données de test par le texte approuvé par le client avant la démonstration."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "en",
+      "audience_code": "college",
+      "heading": "History of the name",
+      "body": "[TEST DATA] Placeholder college-level text about the history of its name for [TEST] Building A.\n\nSecond paragraph. Replace all test data with the Client's approved text before the demo."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "en",
+      "audience_code": "simplified",
+      "heading": "History of the name",
+      "body": "[TEST DATA] Placeholder simplified text about the history of its name for [TEST] Building A.\n\nSecond paragraph. Replace all test data with the Client's approved text before the demo."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "es",
+      "audience_code": "college",
+      "heading": "Historia del nombre",
+      "body": "[DATOS DE PRUEBA] Texto de nivel universitario de ejemplo sobre la historia de su nombre de [TEST] Building A.\n\nSegundo párrafo. Reemplace los datos de prueba con el texto aprobado por el cliente antes de la demostración."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "es",
+      "audience_code": "simplified",
+      "heading": "Historia del nombre",
+      "body": "[DATOS DE PRUEBA] Texto simplificado de ejemplo sobre la historia de su nombre de [TEST] Building A.\n\nSegundo párrafo. Reemplace los datos de prueba con el texto aprobado por el cliente antes de la demostración."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "fr",
+      "audience_code": "college",
+      "heading": "Histoire du nom",
+      "body": "[DONNÉES DE TEST] Texte de niveau universitaire d'exemple sur l'histoire de son nom de [TEST] Building A.\n\nDeuxième paragraphe. Remplacez les données de test par le texte approuvé par le client avant la démonstration."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a01",
+      "location_name": "[TEST] Building A",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "fr",
+      "audience_code": "simplified",
+      "heading": "Histoire du nom",
+      "body": "[DONNÉES DE TEST] Texte simplifié d'exemple sur l'histoire de son nom de [TEST] Building A.\n\nDeuxième paragraphe. Remplacez les données de test par le texte approuvé par le client avant la démonstration."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "en",
+      "audience_code": "college",
+      "heading": "History of the building",
+      "body": "[TEST DATA] Placeholder college-level text about the history of the building for [TEST] Building B.\n\nSecond paragraph. Replace all test data with the Client's approved text before the demo."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "en",
+      "audience_code": "simplified",
+      "heading": "History of the building",
+      "body": "[TEST DATA] Placeholder simplified text about the history of the building for [TEST] Building B.\n\nSecond paragraph. Replace all test data with the Client's approved text before the demo."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "es",
+      "audience_code": "college",
+      "heading": "Historia del edificio",
+      "body": "[DATOS DE PRUEBA] Texto de nivel universitario de ejemplo sobre la historia del edificio de [TEST] Building B.\n\nSegundo párrafo. Reemplace los datos de prueba con el texto aprobado por el cliente antes de la demostración."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "fr",
+      "audience_code": "college",
+      "heading": "Histoire du bâtiment",
+      "body": "[DONNÉES DE TEST] Texte de niveau universitaire d'exemple sur l'histoire du bâtiment de [TEST] Building B.\n\nDeuxième paragraphe. Remplacez les données de test par le texte approuvé par le client avant la démonstration."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "building_history",
+      "section_order": 1,
+      "language_code": "fr",
+      "audience_code": "simplified",
+      "heading": "Histoire du bâtiment",
+      "body": "[DONNÉES DE TEST] Texte simplifié d'exemple sur l'histoire du bâtiment de [TEST] Building B.\n\nDeuxième paragraphe. Remplacez les données de test par le texte approuvé par le client avant la démonstration."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "en",
+      "audience_code": "college",
+      "heading": "History of the name",
+      "body": "[TEST DATA] Placeholder college-level text about the history of its name for [TEST] Building B.\n\nSecond paragraph. Replace all test data with the Client's approved text before the demo."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "en",
+      "audience_code": "simplified",
+      "heading": "History of the name",
+      "body": "[TEST DATA] Placeholder simplified text about the history of its name for [TEST] Building B.\n\nSecond paragraph. Replace all test data with the Client's approved text before the demo."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "es",
+      "audience_code": "college",
+      "heading": "Historia del nombre",
+      "body": "[DATOS DE PRUEBA] Texto de nivel universitario de ejemplo sobre la historia de su nombre de [TEST] Building B.\n\nSegundo párrafo. Reemplace los datos de prueba con el texto aprobado por el cliente antes de la demostración."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "fr",
+      "audience_code": "college",
+      "heading": "Histoire du nom",
+      "body": "[DONNÉES DE TEST] Texte de niveau universitaire d'exemple sur l'histoire de son nom de [TEST] Building B.\n\nDeuxième paragraphe. Remplacez les données de test par le texte approuvé par le client avant la démonstration."
+    },
+    {
+      "token": "6f1d2c3b-4a5e-4f60-8a7b-0c1d2e3f4a02",
+      "location_name": "[TEST] Building B",
+      "section_code": "name_history",
+      "section_order": 2,
+      "language_code": "fr",
+      "audience_code": "simplified",
+      "heading": "Histoire du nom",
+      "body": "[DONNÉES DE TEST] Texte simplifié d'exemple sur l'histoire de son nom de [TEST] Building B.\n\nDeuxième paragraphe. Remplacez les données de test par le texte approuvé par le client avant la démonstration."
+    }
+  ]
+}
